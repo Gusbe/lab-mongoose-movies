@@ -11,6 +11,18 @@ router.get('/new', (req, res, next) => {
 
 });
 
+// GET '/celebrities/celebrityId/edit'
+router.get('/:celebrityId/edit', (req, res, next) => {
+  
+  const { celebrityId } = req.params;
+
+  Celebrity.findById( celebrityId )
+    .then( (celebrity) => res.render('celebrities/edit', { celebrity }))
+    .catch( (err) => console.log(err));
+
+
+});
+
 
 // POST '/celebrities/celebrityId/delete'
 router.post('/:celebrityId/delete', (req, res, next) => {
@@ -18,6 +30,18 @@ router.post('/:celebrityId/delete', (req, res, next) => {
   const { celebrityId } = req.params;
 
   Celebrity.findOneAndDelete({_id: celebrityId} )
+    .then( (celebrity) => res.redirect('/celebrities'))
+    .catch( (err) => console.log(err));
+
+});
+
+// POST '/celebrities/celebrityId'
+router.post('/:celebrityId', (req, res, next) => {
+  
+  const { celebrityId } = req.params;
+  const {name, occupation, catchPhrase} = req.body;
+
+  Celebrity.findOneAndUpdate({ _id: celebrityId }, { $set: {name, occupation, catchPhrase} }, {new: true})
     .then( (celebrity) => res.redirect('/celebrities'))
     .catch( (err) => console.log(err));
 
