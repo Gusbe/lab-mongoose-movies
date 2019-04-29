@@ -11,6 +11,19 @@ router.get('/new', (req, res, next) => {
 
 });
 
+
+// POST '/celebrities/celebrityId/delete'
+router.post('/:celebrityId/delete', (req, res, next) => {
+  
+  const { celebrityId } = req.params;
+
+  Celebrity.findOneAndDelete({_id: celebrityId} )
+    .then( (celebrity) => res.redirect('/celebrities'))
+    .catch( (err) => console.log(err));
+
+});
+
+
 // GET '/celebrities/celebrityId'
 router.get('/:celebrityId', (req, res, next) => {
   
@@ -21,6 +34,7 @@ router.get('/:celebrityId', (req, res, next) => {
     .catch( (err) => console.log(err));
 
 });
+
 
 // POST '/celebrities'
 router.post('/', (req, res, next) => {
@@ -36,6 +50,7 @@ router.post('/', (req, res, next) => {
   
 });
 
+
 // GET '/celebrities'
 router.get('/', (req, res, next) => {
   
@@ -47,5 +62,6 @@ router.get('/', (req, res, next) => {
     })
     .catch( (err) => console.log(err));
 });
+
 
 module.exports = router;
